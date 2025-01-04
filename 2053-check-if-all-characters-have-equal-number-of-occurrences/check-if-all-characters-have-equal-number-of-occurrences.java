@@ -1,16 +1,23 @@
 class Solution {
 
     public boolean areOccurrencesEqual(String s) {
-        Map<Character, Integer> hmap = new HashMap<>();
+        int[] nmap = new int[26];
+        int target = 0;
         for (char ch : s.toCharArray()) {
-            hmap.put(ch, hmap.getOrDefault(ch, 0) + 1);
+            nmap[ch - 'a']++;
         }
-
-        for (Map.Entry<Character, Integer> entry : hmap.entrySet()) {
-            if (!Objects.equals(entry.getValue(), hmap.get(s.charAt(0)))) {
+        for (int i = 0; i < nmap.length; i++) {
+            if (nmap[i] > 0) {
+                target = nmap[i];
+                break;
+            }
+        }
+        for (int ele : nmap) {
+            if (ele > 0 && ele != target) {
                 return false;
             }
         }
+
         return true;
     }
 }
