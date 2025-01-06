@@ -6,8 +6,8 @@ class Solution {
 
         for (int i = str.length - 1; i >= 0; i--) {
             shift = (shift + shifts[i])%26;
-            int nextValue = ((str[i] -'a' + shift) % 26 +'a');
-            str[i] = (char) nextValue;
+            int nextValue = (int) ((str[i] -'a' + shift) % 26);
+            str[i] = (char) ('a' + nextValue);
         }
         return new String(str);
     }
