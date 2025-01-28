@@ -2,33 +2,25 @@ class Solution {
 
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-        solve("", n, result);
+        solve("", n, 0, 0, result);
         return result;
     }
 
-    private void solve(String s, int n, List<String> result) {
+    private void solve(String s, int n, int open, int close, List<String> result) {
         if (s.length() == 2 * n) {
-            if (isValid(s)) {
-                result.add(s);
-            }
+            result.add(s);
             return;
         }
 
-        s += '(';
-        solve(s, n, result);
-
-        s = s.substring(0, s.length() - 1);
-
-        s += ')';
-        solve(s, n, result);
-    }
-
-    private boolean isValid(String str) {
-        int sum = 0;
-        for (char ch : str.toCharArray()) {
-            if (ch == '(') sum++; else sum--;
-            if (sum < 0) return false;
+        if (open < n) {
+            s += '(';
+            solve(s, n, open + 1, close, result);
+            s = s.substring(0, s.length() - 1);
         }
-        return sum == 0;
+        if (close < open) {
+            s += ')';
+            solve(s, n, open, close + 1, result);
+            s = s.substring(0, s.length() - 1);
+        }
     }
 }
