@@ -18,19 +18,17 @@ class Solution {
         return result;
     }
      private boolean isValid(List<String> board, int row, int col) {
-        // Look for up
+
         for (int i = row; i >= 0; i--) {
             if (board.get(i).charAt(col) == 'Q')
                 return false;
         }
 
-        // Check left diagonal upwards
         for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
             if (board.get(i).charAt(j) == 'Q')
                 return false;
         }
 
-        // Check right diagonal upwards
         for (int i = row, j = col; i >= 0 && j < board.size(); i--, j++) {
             if (board.get(i).charAt(j) == 'Q')
                 return false;
