@@ -8,10 +8,11 @@ class Solution {
     }
 
     private static void backtrackWithSet(int[] arr, int index, List<Integer> current, List<List<Integer>> result) {
-        if (result.contains(current)) return;
+        // if (result.contains(current)) return;
 
         result.add(new ArrayList<>(current));
         for (int i = index; i < arr.length; i++) {
+            if(i>index && arr[i] == arr[i-1]) continue;
             current.add(arr[i]);
             backtrackWithSet(arr, i + 1, current, result);
             current.removeLast();
