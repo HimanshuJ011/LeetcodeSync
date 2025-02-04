@@ -1,14 +1,27 @@
 class Solution {
 
     public int uniquePathsIII(int[][] grid) {
-        int[] points = findPoints(grid);
-        int startX = points[0], startY = points[1], endX = points[2], endY = points[3];
-        int walkableCells = points[4];
-        int paths = solve(grid, startX, startY, endX, endY, walkableCells, 1);
+        int startX = 0, startY = 0, endX = 0, endY = 0;
+        int walkableCells = 1;
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    startX = i;
+                    startY = j;
+                } else if (grid[i][j] == 2) {
+                    endX = i;
+                    endY = j;
+                } else if (grid[i][j] == 0) {
+                    walkableCells++;
+                }
+            }
+        }
+        int paths = solve(grid, startX, startY, endX, endY, walkableCells);
         return paths;
     }
 
-    private int solve(int[][] board, int i, int j, int endX, int endY, int walkableCells, int visitedCount) {
+    private int solve(int[][] board, int i, int j, int endX, int endY, int walkableCells) {
         int n = board.length;
         int m = board[0].length;
 
@@ -16,7 +29,7 @@ class Solution {
             return 0;
         }
         if (i == endX && j == endY) {
-            if (visitedCount == walkableCells) {
+            if (walkableCells == 0) {
                 return 1;
             }
         }
@@ -24,37 +37,12 @@ class Solution {
 
         board[i][j] = -1;
 
-        count += solve(board, i, j + 1, endX, endY, walkableCells, visitedCount + 1);
-        count += solve(board, i + 1, j, endX, endY, walkableCells, visitedCount + 1);
-        count += solve(board, i, j - 1, endX, endY, walkableCells, visitedCount + 1);
-        count += solve(board, i - 1, j, endX, endY, walkableCells, visitedCount + 1);
+        count += solve(board, i, j + 1, endX, endY, walkableCells-1);
+        count += solve(board, i + 1, j, endX, endY, walkableCells-1);
+        count += solve(board, i, j - 1, endX, endY, walkableCells-1);
+        count += solve(board, i - 1, j, endX, endY, walkableCells-1);
 
         board[i][j] = 0;
         return count;
-    }
-
-    private int[] findPoints(int[][] grid) {
-        int[] arr = new int[5];
-        int walkableCells = 0;
-        boolean foundStart = false, foundEnd = false;
-
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == 1 && !foundStart) {
-                    arr[0] = i;
-                    arr[1] = j;
-                    foundStart = true;
-                } else if (grid[i][j] == 2 && !foundEnd) {
-                    arr[2] = i;
-                    arr[3] = j;
-                    foundEnd = true;
-                }
-                if (grid[i][j] != -1) {
-                    walkableCells++;
-                }
-            }
-        }
-        arr[4] = walkableCells;
-        return arr;
     }
 }
