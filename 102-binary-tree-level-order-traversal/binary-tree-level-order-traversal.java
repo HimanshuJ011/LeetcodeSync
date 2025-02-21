@@ -16,15 +16,15 @@
 class Solution {
 
     public List<List<Integer>> levelOrder(TreeNode root) {
-        Queue<TreeNode> q = new LinkedList<>();
-
         List<List<Integer>> ansList = new ArrayList<>();
-        helper(root, ansList, q);
+        helper(root, ansList);
         return ansList;
     }
 
-    private static void helper(TreeNode node, List<List<Integer>> ansList, Queue<TreeNode> queue) {
+    private static void helper(TreeNode node, List<List<Integer>> ansList) {
         if (node == null) return;
+        Queue<TreeNode> queue = new LinkedList<>();
+
         queue.offer(node);
 
         while (!queue.isEmpty()) {
